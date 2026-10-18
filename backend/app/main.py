@@ -1,3 +1,3 @@
 from fastapi import FastAPI
 
-app = FastAPI(title="HomeGuard API")
+app = FastAPI(title="API DO HOMEGUARD")
