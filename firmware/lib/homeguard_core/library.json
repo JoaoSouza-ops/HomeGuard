@@ -1,0 +1,7 @@
+{
+  "name": "homeguard_core",
+  "version": "0.1.0",
+  "description": "Lógica portável (sem Arduino) do firmware HomeGuard, testável no PC e no CI",
+  "frameworks": "*",
+  "platforms": "*"
+}
