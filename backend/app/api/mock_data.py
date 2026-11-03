@@ -30,3 +30,4 @@ ALERTAS_MOCK = [
         timestamp=datetime(2026, 10, 18, 14, 1, 30),
     ),
 ]
+
