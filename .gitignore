@@ -10,3 +10,16 @@ __pycache__/
 
 # Banco SQLite local
 *.db
+
+# Firmware secrets
+secrets.h
+firmware/**/secrets.h
+
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# Certificados e capturas
+*.pem
+*.pcap
