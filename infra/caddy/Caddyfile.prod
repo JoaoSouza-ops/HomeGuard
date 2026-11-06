@@ -1,0 +1,19 @@
+# Uso na AWS: HTTPS automático (Let's Encrypt) + usuário/senha em tudo.
+{$SITE_ADDRESS} {
+	basic_auth {
+		{$BASIC_USER} {$BASIC_HASH}
+	}
+
+	handle_path /api/* {
+		reverse_proxy backend:8000
+	}
+	handle {
+		reverse_proxy web:80
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		-Server
+	}
+}

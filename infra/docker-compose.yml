@@ -1,0 +1,63 @@
+name: homeguard
+
+services:
+  # Só no laboratório (--profile lab). Na AWS não sobe.
+  mosquitto:
+    profiles: ["lab"]
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    ports:
+      - "${MQTT_BIND:-0.0.0.0}:1883:1883"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config:ro
+      - mosquitto_data:/mosquitto/data
+
+  backend:
+    build: ../backend
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-sqlite:////app/data/homeguard.db}
+      - MQTT_BROKER_HOST=${MQTT_BROKER_HOST:-mosquitto}
+      - UVICORN_ROOT_PATH=/api          # para o Swagger funcionar em /api/docs
+    ports:
+      - "127.0.0.1:8000:8000"           # só o próprio computador (debug/túnel SSH)
+    volumes:
+      - backend_data:/app/data          # o SQLite sobrevive a deploys
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/openapi.json')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: ../frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL:-/api}
+        VITE_WS_URL: ${VITE_WS_URL:-ws://localhost:8080/api}
+    restart: unless-stopped
+    volumes:
+      - ./web/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+  # Única porta pública. Faz proxy de /api -> backend e / -> frontend.
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-8080}:80"
+      - "${HTTPS_PORT:-8443}:443"
+    environment:
+      - SITE_ADDRESS=${SITE_ADDRESS:-}
+      - BASIC_USER=${BASIC_USER:-}
+      - BASIC_HASH=${BASIC_HASH:-}
+    volumes:
+      - ./caddy/${CADDYFILE:-Caddyfile.local}:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on:
+      - backend
+      - web
+
+volumes:
+  mosquitto_data:
+  backend_data:
+  caddy_data:

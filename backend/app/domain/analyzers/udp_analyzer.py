@@ -9,5 +9,3 @@ class UdpAnalyzer(PacketAnalyzer):
             "is_mqtt": porta == 1883,
             "payload_size": int(packet.length),
         }
-
-
