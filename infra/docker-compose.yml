@@ -12,6 +12,18 @@ services:
       - ./mosquitto/config:/mosquitto/config:ro
       - mosquitto_data:/mosquitto/data
 
+  # Simula os 2 ESPs (MQTT + Telnet) para testar SEM o hardware. Só local (--profile sim).
+  esp-sim:
+    profiles: ["sim"]
+    build: ./simulator
+    restart: unless-stopped
+    environment:
+      - MQTT_HOST=mosquitto
+    ports:
+      - "127.0.0.1:2323:23"             # telnet localhost 2323
+    depends_on:
+      - mosquitto
+
   backend:
     build: ../backend
     restart: unless-stopped

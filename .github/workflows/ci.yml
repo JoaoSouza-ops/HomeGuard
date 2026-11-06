@@ -63,7 +63,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Compose é válido?
         working-directory: infra
-        run: docker compose --env-file ../.env.example --profile lab config -q
+        run: docker compose --env-file ../.env.example --profile lab --profile sim config -q
       - name: Imagens sobem? (backend + frontend)
         working-directory: infra
-        run: docker compose --env-file ../.env.example build
+        run: docker compose --env-file ../.env.example --profile lab --profile sim build
