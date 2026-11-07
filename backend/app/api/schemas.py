@@ -30,3 +30,4 @@ class Alerta(BaseModel):
 class MitigacaoRequest(BaseModel):
     acao: str                # ex: "bloquear_porta", "bloquear_ip"
     justificativa: str | None = None
+    
