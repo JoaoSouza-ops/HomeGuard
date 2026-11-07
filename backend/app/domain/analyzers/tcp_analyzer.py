@@ -11,6 +11,3 @@ class TcpAnalyzer(PacketAnalyzer):
             "is_insecure_port": porta in PORTAS_INSEGURAS,
             "payload_size": int(packet.length),
         }
-
-
-

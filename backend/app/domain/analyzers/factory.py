@@ -15,5 +15,3 @@ class AnalyzerFactory:
         if analyzer is None:
             raise ValueError(f"Protocolo não suportado: {protocol}")
         return analyzer
-
-
