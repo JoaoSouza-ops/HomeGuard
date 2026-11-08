@@ -31,6 +31,7 @@ services:
       - DATABASE_URL=${DATABASE_URL:-sqlite:////app/data/homeguard.db}
       - MQTT_BROKER_HOST=${MQTT_BROKER_HOST:-mosquitto}
       - UVICORN_ROOT_PATH=/api          # para o Swagger funcionar em /api/docs
+      - CARREGAR_DADOS_INICIAIS=${CARREGAR_DADOS_INICIAIS:-true}
     ports:
       - "127.0.0.1:8000:8000"           # só o próprio computador (debug/túnel SSH)
     volumes:
