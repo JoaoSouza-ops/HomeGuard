@@ -9,6 +9,3 @@ def ler_pcap(caminho_arquivo: str, tshark_path: str | None = None):
             yield pacote
     finally:
         captura.close()
-
-
-        
