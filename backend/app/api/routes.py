@@ -36,4 +36,3 @@ def mitigar(device_id: str, request: MitigacaoRequest):
         raise HTTPException(status_code=404, detail="Dispositivo não encontrado")
     # Mock: não executa nenhuma ação real. A mitigação de verdade é o Passo 6.
     return {"status": "mitigado"}
-
