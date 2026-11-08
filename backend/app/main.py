@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from app.api.routes import router
 from app.infra.config import dados_iniciais_ligados
+from app.api.routes_pso import router as router_pso
 from app.infra.dados_iniciais import carregar_dados_iniciais
 from app.infra.database import SessionLocal, criar_tabelas
 
@@ -21,3 +22,4 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="API DO HOMEGUARD", lifespan=lifespan)
 app.include_router(router)
+app.include_router(router_pso)
