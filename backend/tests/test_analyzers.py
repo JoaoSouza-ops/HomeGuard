@@ -8,7 +8,7 @@ from app.domain.analyzers.factory import AnalyzerFactory
 def test_tcp_telnet_e_insegura():
     pacote = NS(tcp=NS(dstport="23"), length="60")
     f = AnalyzerFactory.get_analyzer("tcp").extract_features(pacote)
-    assert f == {"port": 23, "is_insecure_port": True, "payload_size": 60}
+    assert f == {"port": 23, "is_insecure_port": True, "payload_size": 60, "src_ip": None, "src_mac": None}
 
 
 def test_tcp_porta_segura():
