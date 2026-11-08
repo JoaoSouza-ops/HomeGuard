@@ -1,4 +1,4 @@
-from app.domain.analyzers.base import PacketAnalyzer
+from app.domain.analyzers.base import PacketAnalyzer, extrair_origem
 
 
 class UdpAnalyzer(PacketAnalyzer):
@@ -8,4 +8,5 @@ class UdpAnalyzer(PacketAnalyzer):
             "port": porta,
             "is_mqtt": porta == 1883,
             "payload_size": int(packet.length),
+            **extrair_origem(packet),
         }

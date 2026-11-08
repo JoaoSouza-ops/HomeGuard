@@ -1,4 +1,4 @@
-from app.domain.analyzers.base import PacketAnalyzer
+from app.domain.analyzers.base import PacketAnalyzer, extrair_origem
 
 PORTAS_INSEGURAS = {23, 21, 80}  # Telnet, FTP, HTTP
 
@@ -10,4 +10,5 @@ class TcpAnalyzer(PacketAnalyzer):
             "port": porta,
             "is_insecure_port": porta in PORTAS_INSEGURAS,
             "payload_size": int(packet.length),
+            **extrair_origem(packet),
         }
