@@ -1,8 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, WebSocket, WebSocketDisconnect
 from sqlalchemy.orm import Session
 
 from app.api.dependencias import get_sessao
 from app.api.schemas import Alerta, Dispositivo, MitigacaoRequest
+from app.api.ws_manager import manager
+from app.domain import mitigacao
 from app.infra import repositorio
 
 router = APIRouter()
@@ -34,7 +36,23 @@ def listar_alertas(sessao: Session = Depends(get_sessao)):
 
 @router.post("/devices/{device_id}/mitigate")
 def mitigar(device_id: str, request: MitigacaoRequest, sessao: Session = Depends(get_sessao)):
-    if repositorio.buscar_dispositivo(sessao, device_id) is None:
+    dispositivo = repositorio.buscar_dispositivo(sessao, device_id)
+    if dispositivo is None:
         raise HTTPException(status_code=404, detail="Dispositivo não encontrado")
-    # Mock: não executa nenhuma ação real. A mitigação de verdade é o Passo 6.
+
+    try:
+        mitigacao.executar_mitigacao(request.acao, dispositivo.ip)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
     return {"status": "mitigado"}
+
+
+@router.websocket("/ws/alerts")
+async def websocket_alertas(websocket: WebSocket):
+    await manager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()  # mantém a conexão viva
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)

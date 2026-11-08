@@ -11,6 +11,8 @@ load_dotenv(RAIZ_REPO / ".env")
 # roda o programa: rodando de dentro de backend/, o arquivo fica em backend/homeguard.db
 DATABASE_URL_PADRAO = "sqlite:///./homeguard.db"
 
+VALORES_VERDADEIROS = {"1", "true", "yes", "sim", "on"}
+
 
 def obter_tshark_path() -> str | None:
     """Caminho do tshark.exe, vindo da variável TSHARK_PATH.
@@ -22,3 +24,13 @@ def obter_database_url() -> str:
     """URL de conexão com o banco, vinda da variável DATABASE_URL.
     Para migrar para PostgreSQL, basta trocar o valor desta variável."""
     return os.getenv("DATABASE_URL") or DATABASE_URL_PADRAO
+
+
+def dados_iniciais_ligados() -> bool:
+    """Diz se os dados de exemplo devem ser carregados na subida da aplicação.
+
+    Vem da variável CARREGAR_DADOS_INICIAIS. O padrão é DESLIGADO: se ninguém
+    configurar nada (por exemplo, no deploy), o pior caso é um banco vazio, e
+    não dispositivos falsos aparecendo.
+    """
+    return os.getenv("CARREGAR_DADOS_INICIAIS", "").strip().lower() in VALORES_VERDADEIROS
