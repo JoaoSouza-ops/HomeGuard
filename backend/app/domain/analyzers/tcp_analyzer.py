@@ -12,4 +12,3 @@ class TcpAnalyzer(PacketAnalyzer):
             "payload_size": int(packet.length),
             **extrair_origem(packet),
         }
-

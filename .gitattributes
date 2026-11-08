@@ -1,0 +1,4 @@
+# Fins de linha: .sh precisa de LF (senão quebra no Linux/AWS); .cmd precisa de CRLF.
+*.sh text eol=lf
+*.cmd text eol=crlf
+infra/deploy.sh text eol=lf

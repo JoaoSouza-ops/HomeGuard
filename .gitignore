@@ -23,3 +23,13 @@ firmware/**/secrets.h
 # Certificados e capturas
 *.pem
 *.pcap
+
+# Node / frontend
+node_modules/
+dist/
+
+# Outros
+.venv/
+.pytest_cache/
+.env.*
+!.env.example
