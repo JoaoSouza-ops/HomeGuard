@@ -145,28 +145,6 @@ Para reiniciar o status de demonstração e reabilitar o botão **"Mitigar"**:
    localStorage.clear(); location.reload();
    ```
 
----
-
-## 🎤 Roteiro de Apresentação (Pitch de 3 a 5 minutos)
-
-### 1. O Problema (30s)
-> *"Dispositivos IoT residenciais como lâmpadas, câmeras e sensores frequentemente utilizam firmwares inseguros, sem criptografia e com portas de gerenciamento abertas (como Telnet na porta 23). O usuário comum não sabe o que trafega na rede até que um dispositivo seja invadido."*
-
-### 2. A Solução HomeGuard (45s)
-> *"O HomeGuard atua como uma sentinela passiva na rede. Ele inspeciona o tráfego dos dispositivos IoT, extrai características de rede em tempo real, submete ao algoritmo de Inteligência Computacional PSO e apresenta visualmente o nível de risco em uma Casa Virtual, permitindo mitigar a ameaça com um clique."*
-
-### 3. Como o Backend Funciona e se Integra ao PSO (1m 15s)
-> *"O backend em FastAPI extrai cinco features comportamentais de cada dispositivo: taxa de pacotes suspeitos, uso de portas inseguras, desvio de volume, identificação de MAC desconhecido e frequência de conexões.*
-> 
-> *Em vez de definir pesos arbitrários por regras rígidas, utilizamos o algoritmo **PSO (Particle Swarm Optimization)**. O enxame explora o espaço pentadimensional de pesos para minimizar o erro quadrático médio em relação a um dataset rotulado. O modelo final opera de forma instantânea em produção, calculando o score ponderado e classificando o dispositivo em Normal, Atenção ou Risco."*
-
-### 4. Integração com o Frontend e Mitigação ao Vivo (1m)
-> *(Demonstrando o dashboard)*:
-> *"No frontend em React, a Casa Virtual consome a API e WebSockets. Vemos aqui o ESP32 normal seguro e o ESP32 vulnerável em vermelho com score 0.87. Na aba de análise, exibimos a curva de aprendizado do PSO e o simulador interativo.*
-> 
-> *Ao clicar em **Mitigar**, o frontend aciona o endpoint `/devices/{id}/mitigate`. O backend valida as diretrizes de rede e registra o bloqueio imediato do tráfego do dispositivo vulnerável, neutralizando o vetor de ataque."*
-
----
 
 ## 📁 Estrutura do Repositório
 
