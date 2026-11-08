@@ -1,4 +1,4 @@
-FROM node:20-alpine AS build
+FROM node:22-alpine AS build
 WORKDIR /app
 
 # O Vite grava estas variáveis NO BUILD (não em runtime) — por isso são ARG.
